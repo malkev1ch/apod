@@ -1,0 +1,105 @@
+openapi: 3.0.3
+info:
+  title: Swagger Service - OpenAPI 3.0
+  description: |-
+    This is a sample Service based on the OpenAPI 3.0 specification which provide functionality to get NASA "Astronomy Picture of the Day".
+    
+    Some useful links:
+    - [The github repository](https://github.com/malkev1ch/apod)
+    - [NASA API Doc](https://api.nasa.gov/)
+  contact:
+    email: malkevich.me@gmail.com
+  version: 0.0.1
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: picture
+    description: Everything about Astronomy Picture of the Day.
+paths:
+  /v1/picture:
+    get:
+      tags:
+        - picture
+      summary: Get picture by date
+      description: Returns picture info by date.
+      operationId: getPicture
+      parameters:
+        - name: date
+          in: query
+          description: Date value that need to be considered for filter. If it is not provided - return picture of current date.
+          required: false
+          schema:
+            type: string
+            format: date
+            example: '2023-02-24'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Picture'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/picture/all:
+    get:
+      tags:
+        - picture
+      summary: Get all pictures.
+      description: Returns info about all stored pictures. Array sorted by date in descending by default
+      operationId: getAllPictures
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PictureArray'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    Picture:
+      required:
+        - title
+        - url
+        - date
+      type: object
+      properties:
+        title:
+          type: string
+          example: 'Mehmet Ergün'
+        url:
+          type: string
+          example: 'https://apod.nasa.gov/apod/image/2302/SunHalphaC_Ergun_960.jpg'
+        date:
+          type: string
+          format: date
+    PictureArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/Picture'
+    ErrorResponse:
+      required:
+        - message
+      type: object
+      properties:
+        message:
+          type: string
