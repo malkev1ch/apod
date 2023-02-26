@@ -12,5 +12,3 @@ CREATE TABLE pictures
     explanation   VARCHAR(2048)               NOT NULL,
     created_at    TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );
-
-CREATE UNIQUE INDEX pictures_date ON pictures (date);

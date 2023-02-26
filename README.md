@@ -21,7 +21,7 @@
     go install github.com/golang-migrate/migrate/v4/cmd/migrate@latest; \
     go install github.com/golang/mock/mockgen@latest
 
-#### Docker development usage:
+#### Docker usage:
     make up // run all containers.
 
 #### Local development usage:
